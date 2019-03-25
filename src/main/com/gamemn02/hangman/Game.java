@@ -2,12 +2,16 @@ package com.gamemn02.hangman;
 
 
 import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
 
 public class Game {
+    private int mAppendage;
+    private Observable mWinObserver;
+    private Observable mLossObserver;
 
     public Game(int appendage) {
+        mAppendage = appendage;
+        mWinObserver = new Observable();
+        mLossObserver = new Observable();
     }
 
     public boolean setPhrase(String phrase) {
