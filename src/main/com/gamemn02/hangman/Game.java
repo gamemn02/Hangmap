@@ -8,23 +8,31 @@ import java.util.Map;
 public class Game {
     private int mMaxAppendage;
     private int mCurAppendage;
-    private Map<String, Boolean> mLetters;
-    private Observable mWinObserver;
-    private Observable mLossObserver;
+    private Map<Character, Boolean> mLetters;
+    private Observable mWinObservable;
+    private Observable mLossObservable;
 
-    public Game(int appendage, Map<String, Boolean> letters) {
-        mCurAppendage = appendage;
+    public Game(int maxAppendage, int curAppendage, Map<Character, Boolean> letters) {
+        mMaxAppendage = maxAppendage;
+        mCurAppendage = curAppendage;
         mLetters = letters;
-        mWinObserver = new Observable();
-        mLossObserver = new Observable();
+        mWinObservable = new Observable();
+        mLossObservable = new Observable();
     }
 
     public void play(char letter) {
-
+        if (mLetters.containsKey(letter)) {
+            mLetters.put(letter, true);
+            mWinObservable.notify(new GameInfo());
+        } else {
+            mCurAppendage++;
+            mLossObservable.notify(new GameInfo());
+        }
     }
 
     public void observe(Observer winObserver, Observer lossObserver) {
-
+        mWinObservable.addObserver(winObserver);
+        mLossObservable.addObserver(lossObserver);
     }
 
 }
