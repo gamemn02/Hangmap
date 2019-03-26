@@ -1,20 +1,16 @@
 package com.gamemn02.hangman;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
-    boolean win = false;
-    boolean loss = false;
+    boolean success = false;
+    boolean fail = false;
 
     @Test
     public void apiWorksSuccessful() {
@@ -27,11 +23,17 @@ class GameTest {
         word.add(new GameLetter('d'));
         Game game = new Game(new StaticGameState(new GameState(4, 0, word)));
         // when
-        game.observe(gameInfo -> win = true, gameInfo -> loss = true);
+        game.setEventListener(((staticGameState, gameEvent) -> {
+            if (gameEvent == GameEvent.SUCCESS) {
+                success = true;
+            } else if (gameEvent == GameEvent.FAIL) {
+                fail = true;
+            }
+        }));
         //then
         game.play('o');
-        assertTrue(win);
+        assertTrue(success);
         game.play('f');
-        assertTrue(loss);
+        assertTrue(fail);
     }
 }

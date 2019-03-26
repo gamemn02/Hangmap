@@ -1,31 +1,28 @@
 package com.gamemn02.hangman;
 
+import java.awt.*;
+
 public class Game {
     private GameState mGameState;
-    private Observable mWinObservable;
-    private Observable mLossObservable;
+    private GameListener mEventGameListener;
 
     public Game(StaticGameState gameState) {
         mGameState = gameState.asGameState();
-        mWinObservable = new Observable();
-        mLossObservable = new Observable();
     }
 
     public void play(char letter) {
         int letterIndex = mGameState.findNotFoundLetter(letter);
-        if (letterIndex == GameState.NOT_FOUND) { // Loss
+        if (letterIndex == GameState.NOT_FOUND) { // Fail
             mGameState.setCurAppendage(mGameState.getCurAppendage()+1);
-            mLossObservable.notify(new StaticGameState(mGameState));
-        } else { // Win
+            mEventGameListener.stateChanged(new StaticGameState(mGameState), GameEvent.FAIL);
+        } else { // Success
             mGameState.setFound(letterIndex);
-            mWinObservable.notify(new StaticGameState(mGameState));
-
+            mEventGameListener.stateChanged(new StaticGameState(mGameState), GameEvent.SUCCESS);
         }
     }
 
-    public void observe(Observer winObserver, Observer lossObserver) {
-        mWinObservable.addObserver(winObserver);
-        mLossObservable.addObserver(lossObserver);
+    public void setEventListener(GameListener eventGameListener) {
+        mEventGameListener = eventGameListener;
     }
 
 }
