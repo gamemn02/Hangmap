@@ -4,13 +4,13 @@ import java.util.List;
 
 public class GameState implements Cloneable {
     public static final int NOT_FOUND = -1;
-    private int mMaxAppendage;
-    private int mCurAppendage;
+    private int mMaxAttempts;
+    private int mCurAttempts;
     private List<GameLetter> mLetters;
 
-    public GameState(int maxAppendage, int curAppendage, List<GameLetter> letters) {
-        maxAppendage = mMaxAppendage;
-        curAppendage = mCurAppendage;
+    public GameState(int maxAttempts, int curAttempts, List<GameLetter> letters) {
+        mMaxAttempts = maxAttempts;
+        mCurAttempts = curAttempts;
         mLetters = letters;
     }
 
@@ -27,20 +27,33 @@ public class GameState implements Cloneable {
         mLetters.get(letterIndex).setFound();
     }
 
-    public void setCurAppendage(int curAppendage) {
-        mCurAppendage = curAppendage;
+    public void setCurAttempts(int curAttempts) {
+        mCurAttempts = curAttempts;
     }
 
-    public int getMaxAppendage() {
-        return mMaxAppendage;
+    public int getMaxAttempts() {
+        return mMaxAttempts;
     }
 
-    public int getCurAppendage() {
-        return mCurAppendage;
+    public int getCurAttempts() {
+        return mCurAttempts;
+    }
+
+    public boolean doesWin() {
+        for (GameLetter l : mLetters) {
+            if (!l.isFound() && !Character.isWhitespace(l.getChar())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean doesLoss() {
+        return mCurAttempts > mMaxAttempts;
     }
 
     @Override
     protected GameState clone() {
-        return new GameState(mMaxAppendage, mCurAppendage, mLetters);
+        return new GameState(mMaxAttempts, mCurAttempts, mLetters);
     }
 }

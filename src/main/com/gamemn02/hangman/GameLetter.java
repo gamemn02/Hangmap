@@ -45,4 +45,9 @@ public class GameLetter {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(mLetterChar);
+    }
 }

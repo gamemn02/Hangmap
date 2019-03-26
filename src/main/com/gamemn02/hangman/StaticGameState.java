@@ -13,6 +13,18 @@ public class StaticGameState implements Iterable<GameLetter> {
         return mGameState;
     }
 
+    public boolean doesWin() {
+        return mGameState.doesWin();
+    }
+
+    public boolean doesLoss() {
+        return mGameState.doesLoss();
+    }
+
+    public int getRemainingAttempts() {
+        return mGameState.getMaxAttempts() - mGameState.getCurAttempts() + 1;
+    }
+
     @Override
     public Iterator<GameLetter> iterator() {
         return mGameState.getLetters().iterator();
