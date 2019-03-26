@@ -1,32 +1,25 @@
 package com.gamemn02.hangman;
 
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 public class Game {
-    private int mMaxAppendage;
-    private int mCurAppendage;
-    private Map<Character, Boolean> mLetters;
+    private GameState mGameState;
     private Observable mWinObservable;
     private Observable mLossObservable;
 
-    public Game(int maxAppendage, int curAppendage, Map<Character, Boolean> letters) {
-        mMaxAppendage = maxAppendage;
-        mCurAppendage = curAppendage;
-        mLetters = letters;
+    public Game(StaticGameState gameState) {
+        mGameState = gameState.asGameState();
         mWinObservable = new Observable();
         mLossObservable = new Observable();
     }
 
     public void play(char letter) {
-        if (mLetters.containsKey(letter)) {
-            mLetters.put(letter, true);
-            mWinObservable.notify(new GameInfo());
-        } else {
-            mCurAppendage++;
-            mLossObservable.notify(new GameInfo());
+        int letterIndex = mGameState.findNotFoundLetter(letter);
+        if (letterIndex == GameState.NOT_FOUND) { // Loss
+            mGameState.setCurAppendage(mGameState.getCurAppendage()+1);
+            mLossObservable.notify(new StaticGameState(mGameState));
+        } else { // Win
+            mGameState.setFound(letterIndex);
+            mWinObservable.notify(new StaticGameState(mGameState));
+
         }
     }
 

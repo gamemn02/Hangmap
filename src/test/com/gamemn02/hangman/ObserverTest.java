@@ -9,11 +9,11 @@ public class ObserverTest {
         // given
         Observable win = new Observable();
         Observable loss = new Observable();
-        win.addObserver( gameInfo -> System.out.println("win good!"));
-        loss.addObserver( gameInfo -> System.out.println("loss good!"));
+        win.addObserver(staticGameState -> System.out.println("win good!"));
+        loss.addObserver(staticGameState -> System.out.println("loss good!"));
         // then
         System.out.println("calling notify");
-        win.notify(new GameInfo());
-        loss.notify(new GameInfo());
+        win.notify(new StaticGameState(new GameState(4, 0, null)));
+        loss.notify(new StaticGameState(new GameState(4, 0, null)));
     }
 }

@@ -18,10 +18,10 @@ public class Observable {
         }
     }
 
-    public void notify(GameInfo gameInfo) {
+    public void notify(StaticGameState staticGameState) {
         Object[] arrLocal = observers.toArray();
         for (int i = arrLocal.length-1; i>=0; i--)
-            ((Observer)arrLocal[i]).update(gameInfo);
+            ((Observer)arrLocal[i]).update(staticGameState);
     }
 
     public void deleteObserver(Observer observer) {
