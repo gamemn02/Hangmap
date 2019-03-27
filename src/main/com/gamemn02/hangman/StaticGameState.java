@@ -22,7 +22,7 @@ public class StaticGameState implements Iterable<GameLetter> {
     }
 
     public int getRemainingAttempts() {
-        return mGameState.getMaxAttempts() - mGameState.getCurAttempts() + 1;
+        return mGameState.getRemainingAttempts();
     }
 
     @Override

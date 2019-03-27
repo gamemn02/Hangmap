@@ -49,11 +49,16 @@ public class GameState implements Cloneable {
     }
 
     public boolean doesLoss() {
-        return mCurAttempts > mMaxAttempts;
+        return mCurAttempts >= mMaxAttempts;
+    }
+
+    public int getRemainingAttempts() {
+        return mMaxAttempts - mCurAttempts;
     }
 
     @Override
     protected GameState clone() {
         return new GameState(mMaxAttempts, mCurAttempts, mLetters);
     }
+
 }
